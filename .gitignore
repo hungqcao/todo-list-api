@@ -1,0 +1,6 @@
+src/Algorithms/obj/
+src/Algorithms/bin/
+/src/SudokuSample/.vs
+/src/TodoListApplication/.vs
+/src/TodoListApplication/TodoListApplication/bin/Debug/net461
+/src/TodoListApplication/TodoListApplication/obj

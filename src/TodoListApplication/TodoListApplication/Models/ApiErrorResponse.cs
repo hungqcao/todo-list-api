@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 
 namespace TodoListApplication.Models
 {
-    public class TodoTask
+    /// <summary>
+    /// Error response
+    /// </summary>
+    public class ApiErrorResponse
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public bool Completed { get; set; }
+        public string Message { get; set; }        
     }
 }

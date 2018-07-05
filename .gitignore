@@ -4,3 +4,5 @@ src/Algorithms/bin/
 /src/TodoListApplication/.vs
 /src/TodoListApplication/TodoListApplication/bin/Debug/net461
 /src/TodoListApplication/TodoListApplication/obj
+/src/TodoListApplication/TodoListTest/obj
+/src/TodoListApplication/TodoListTest/bin/Debug/net461

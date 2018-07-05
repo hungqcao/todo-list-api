@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TodoListApplication.ApiFilters;
+using TodoListApplication.Services;
 
 namespace TodoListApplication
 {
@@ -27,19 +29,23 @@ namespace TodoListApplication
         {
             services.AddMvc(options =>
             {
+                options.Filters.Add(typeof(ExceptionFilter));
+
                 options.RespectBrowserAcceptHeader = true;
-                options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
-                options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+                // Support content negotiation
             });
             
             services.AddApiVersioning(options =>
             {
-                // Default to API version 1.0 if it is not specified in the URL for backward compatibility
+                options.ApiVersionReader = new MediaTypeApiVersionReader();
                 options.AssumeDefaultVersionWhenUnspecified = true;
-
-                // Require the API version to be specified in the URL (not as a query parameter) because it is required in our routes anyway
-                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+                options.ReportApiVersions = true;
+                options.ApiVersionSelector = new CurrentImplementationApiVersionSelector(options);
             });
+
+            // Note: I had to use singleton for demo simulating database behavior, in reality we should consider other methods
+            services.AddSingleton<ITodoListService, TodoListService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

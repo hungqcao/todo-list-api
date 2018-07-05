@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 using TodoListApplication.ApiFilters;
 using TodoListApplication.Services;
 
@@ -44,6 +45,20 @@ namespace TodoListApplication
                 options.ApiVersionSelector = new CurrentImplementationApiVersionSelector(options);
             });
 
+            services.AddSwaggerGen(c =>
+            {
+                c.IncludeXmlComments(string.Format(@"{0}\TodoListApplication.XML", System.AppDomain.CurrentDomain.BaseDirectory));
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Todo API",
+                    Description = "Provide some basic functionalities of Todo list",
+                    TermsOfService = "None"
+                });
+            });
+
+            services.AddResponseCaching();
+
             // Note: I had to use singleton for demo simulating database behavior, in reality we should consider other methods
             services.AddSingleton<ITodoListService, TodoListService>();
         }
@@ -56,6 +71,12 @@ namespace TodoListApplication
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Todo Api V1");
+            });
+            app.UseResponseCaching();
             app.UseMvc();
         }
     }

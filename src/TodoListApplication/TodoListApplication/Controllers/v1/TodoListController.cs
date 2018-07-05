@@ -20,6 +20,12 @@ namespace TodoListApplication.Controllers.v1
             this.todoListService = todoListService;
         }
 
+        /// <summary>
+        /// Search todo list API
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         [HttpGet(Name = nameof(GetListsAsync))]
         [ResponseCache(Duration = 60, VaryByQueryKeys = new string[] { "searchString", "limit", "skip" })]
         [Etag]
@@ -36,6 +42,12 @@ namespace TodoListApplication.Controllers.v1
             }
         }
 
+        /// <summary>
+        /// Get Todo list by Id
+        /// </summary>
+        /// <param name="id">TodoList Id</param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = nameof(GetListByIdAsync))]
         [Etag]
         public async Task<IActionResult> GetListByIdAsync(string id, CancellationToken ct)
@@ -51,6 +63,11 @@ namespace TodoListApplication.Controllers.v1
             }
         }
 
+        /// <summary>
+        /// Create new Todo list
+        /// </summary>
+        /// <param name="todoList"></param>
+        /// <returns></returns>
         [HttpPost(Name = nameof(CreateTodoListAsync))]
         public async Task<IActionResult> CreateTodoListAsync([FromBody] TodoList todoList)
         {
@@ -72,6 +89,12 @@ namespace TodoListApplication.Controllers.v1
             }
         }
 
+        /// <summary>
+        /// Get all tasks of a Todo list
+        /// </summary>
+        /// <param name="todoListId">Todo List Id</param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         [HttpGet("{todoListId}/tasks", Name = nameof(GetTodoTasksAsync))]
         public async Task<IActionResult> GetTodoTasksAsync(string todoListId, CancellationToken ct)
         {
@@ -86,6 +109,12 @@ namespace TodoListApplication.Controllers.v1
             }
         }
 
+        /// <summary>
+        /// Create a new task under a Todo list
+        /// </summary>
+        /// <param name="todoListId">Todo list Id</param>
+        /// <param name="todoTask"></param>
+        /// <returns></returns>
         [HttpPost("{todoListId}/tasks", Name = nameof(CreateTodoTaskAsync))]
         public async Task<IActionResult> CreateTodoTaskAsync(string todoListId, [FromBody] TodoTask todoTask)
         {
